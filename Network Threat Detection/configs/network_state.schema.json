@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "network_state.schema.json",
+  "title": "Time-Windowed Network State",
+  "description": "Contract for one observed network state. It contains only traffic observed within its stated time window; future labels and forecasts belong to downstream components.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "state_id",
+    "source",
+    "timestamp",
+    "window_seconds",
+    "traffic_features"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "state_id": {
+      "type": "string",
+      "description": "Stable identifier for this state, for example a dataset/scenario/window combination."
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dataset", "scenario"],
+      "properties": {
+        "dataset": { "type": "string" },
+        "scenario": { "type": "string" },
+        "capture_id": { "type": "string" },
+        "split": { "type": "string", "enum": ["train", "validation", "test", "demo"] }
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC start time of the observation window."
+    },
+    "window_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Duration of the window used to aggregate traffic."
+    },
+    "traffic_features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "packet_count",
+        "flow_count",
+        "byte_count",
+        "packets_per_second",
+        "bytes_per_second",
+        "unique_src_ips",
+        "unique_dst_ips",
+        "unique_src_ports",
+        "unique_dst_ports",
+        "port_fanout",
+        "syn_rate",
+        "tcp_flag_counts",
+        "timing",
+        "packet_metadata"
+      ],
+      "properties": {
+        "packet_count": { "type": ["number", "null"], "minimum": 0 },
+        "flow_count": { "type": "integer", "minimum": 0 },
+        "byte_count": { "type": ["number", "null"], "minimum": 0 },
+        "packets_per_second": { "type": ["number", "null"], "minimum": 0 },
+        "bytes_per_second": { "type": ["number", "null"], "minimum": 0 },
+        "unique_src_ips": { "type": "integer", "minimum": 0 },
+        "unique_dst_ips": { "type": "integer", "minimum": 0 },
+        "unique_src_ports": { "type": "integer", "minimum": 0 },
+        "unique_dst_ports": { "type": "integer", "minimum": 0 },
+        "port_fanout": { "type": "integer", "minimum": 0 },
+        "syn_rate": { "type": ["number", "null"], "minimum": 0 },
+        "protocol_counts": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "tcp_flag_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["syn", "ack", "fin", "rst", "psh", "urg"],
+          "properties": {
+            "syn": { "type": ["integer", "null"], "minimum": 0 },
+            "ack": { "type": ["integer", "null"], "minimum": 0 },
+            "fin": { "type": ["integer", "null"], "minimum": 0 },
+            "rst": { "type": ["integer", "null"], "minimum": 0 },
+            "psh": { "type": ["integer", "null"], "minimum": 0 },
+            "urg": { "type": ["integer", "null"], "minimum": 0 }
+          }
+        },
+        "timing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mean_iat_ms", "std_iat_ms", "max_iat_ms"],
+          "properties": {
+            "mean_iat_ms": { "type": ["number", "null"], "minimum": 0 },
+            "std_iat_ms": { "type": ["number", "null"], "minimum": 0 },
+            "max_iat_ms": { "type": ["number", "null"], "minimum": 0 },
+            "mean_flow_duration_ms": { "type": ["number", "null"], "minimum": 0 },
+            "max_flow_duration_ms": { "type": ["number", "null"], "minimum": 0 }
+          }
+        },
+        "packet_metadata": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mean_packet_size", "mean_ttl", "ttl_std", "retransmission_count", "fragment_count"],
+          "properties": {
+            "mean_packet_size": { "type": ["number", "null"], "minimum": 0 },
+            "mean_ttl": { "type": ["number", "null"], "minimum": 0 },
+            "ttl_std": { "type": ["number", "null"], "minimum": 0 },
+            "mean_tcp_window_size": { "type": ["number", "null"], "minimum": 0 },
+            "retransmission_count": { "type": ["integer", "null"], "minimum": 0 },
+            "fragment_count": { "type": ["integer", "null"], "minimum": 0 }
+          }
+        }
+      }
+    },
+    "feature_availability": {
+      "type": "object",
+      "additionalProperties": { "type": "boolean" }
+    },
+    "ground_truth": {
+      "type": "object",
+      "description": "Optional annotation from the source dataset for training and evaluation; it must describe only the current window.",
+      "additionalProperties": false,
+      "properties": {
+        "current_label": { "type": "string" },
+        "attack_category": { "type": "string" }
+      }
+    }
+  }
+}

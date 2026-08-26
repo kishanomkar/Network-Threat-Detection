@@ -1,0 +1,208 @@
+{
+  "schema_version": "1.0",
+  "default_window_seconds": 10,
+  "purpose": "Shared feature definitions for Person 1 network-state and graph outputs. All values are computed from the current observation window only.",
+  "network_state_features": [
+    {
+      "path": "traffic_features.packet_count",
+      "source_level": "packet",
+      "data_type": "integer",
+      "aggregation": "count packets in the window",
+      "description": "Total observed packets."
+    },
+    {
+      "path": "traffic_features.flow_count",
+      "source_level": "flow",
+      "data_type": "integer",
+      "aggregation": "count flows in the window",
+      "description": "Total bidirectional or unidirectional flow records, according to the input convention."
+    },
+    {
+      "path": "traffic_features.byte_count",
+      "source_level": "packet_or_flow",
+      "data_type": "number",
+      "aggregation": "sum bytes",
+      "description": "Total transferred bytes."
+    },
+    {
+      "path": "traffic_features.packets_per_second",
+      "source_level": "derived",
+      "data_type": "number",
+      "aggregation": "packet_count / window_seconds",
+      "description": "Traffic packet rate."
+    },
+    {
+      "path": "traffic_features.bytes_per_second",
+      "source_level": "derived",
+      "data_type": "number",
+      "aggregation": "byte_count / window_seconds",
+      "description": "Traffic byte rate."
+    },
+    {
+      "path": "traffic_features.unique_src_ips",
+      "source_level": "flow_or_packet",
+      "data_type": "integer",
+      "aggregation": "distinct source IP count",
+      "description": "Number of active source identities."
+    },
+    {
+      "path": "traffic_features.unique_dst_ips",
+      "source_level": "flow_or_packet",
+      "data_type": "integer",
+      "aggregation": "distinct destination IP count",
+      "description": "Number of active destination identities."
+    },
+    {
+      "path": "traffic_features.unique_src_ports",
+      "source_level": "flow_or_packet",
+      "data_type": "integer",
+      "aggregation": "distinct source port count",
+      "description": "Source-port diversity."
+    },
+    {
+      "path": "traffic_features.unique_dst_ports",
+      "source_level": "flow_or_packet",
+      "data_type": "integer",
+      "aggregation": "distinct destination port count",
+      "description": "Destination service diversity."
+    },
+    {
+      "path": "traffic_features.port_fanout",
+      "source_level": "derived",
+      "data_type": "integer",
+      "aggregation": "maximum distinct destination ports contacted by one source IP",
+      "description": "Potential scan or service-enumeration signal."
+    },
+    {
+      "path": "traffic_features.protocol_counts",
+      "source_level": "flow_or_packet",
+      "data_type": "object[string, integer]",
+      "aggregation": "count by protocol",
+      "description": "Protocol distribution, for example TCP, UDP and ICMP."
+    },
+    {
+      "path": "traffic_features.syn_rate",
+      "source_level": "packet",
+      "data_type": "number",
+      "aggregation": "SYN flag count / packet_count; 0 when packet_count is 0",
+      "description": "SYN activity rate."
+    },
+    {
+      "path": "traffic_features.tcp_flag_counts.{syn,ack,fin,rst,psh,urg}",
+      "source_level": "packet",
+      "data_type": "integer",
+      "aggregation": "count each TCP flag in the window",
+      "description": "TCP control-flag activity; absent TCP packets produce zeros."
+    },
+    {
+      "path": "traffic_features.timing.mean_iat_ms",
+      "source_level": "packet_or_flow",
+      "data_type": "number",
+      "aggregation": "mean inter-arrival time in milliseconds",
+      "description": "Average arrival spacing."
+    },
+    {
+      "path": "traffic_features.timing.std_iat_ms",
+      "source_level": "packet_or_flow",
+      "data_type": "number",
+      "aggregation": "population standard deviation of inter-arrival time in milliseconds",
+      "description": "Arrival-time variability."
+    },
+    {
+      "path": "traffic_features.timing.max_iat_ms",
+      "source_level": "packet_or_flow",
+      "data_type": "number",
+      "aggregation": "maximum inter-arrival time in milliseconds",
+      "description": "Largest observed arrival gap."
+    },
+    {
+      "path": "traffic_features.timing.mean_flow_duration_ms",
+      "source_level": "flow",
+      "data_type": "number",
+      "aggregation": "mean source-reported flow duration in milliseconds",
+      "description": "Average completed-flow duration; unavailable for packet-only input."
+    },
+    {
+      "path": "traffic_features.timing.max_flow_duration_ms",
+      "source_level": "flow",
+      "data_type": "number",
+      "aggregation": "maximum source-reported flow duration in milliseconds",
+      "description": "Longest completed-flow duration in the current window; unavailable for packet-only input."
+    },
+    {
+      "path": "traffic_features.packet_metadata.mean_packet_size",
+      "source_level": "packet",
+      "data_type": "number",
+      "aggregation": "mean IP packet size in bytes",
+      "description": "Average packet size."
+    },
+    {
+      "path": "traffic_features.packet_metadata.mean_ttl",
+      "source_level": "packet",
+      "data_type": "number",
+      "aggregation": "mean IP TTL",
+      "description": "Average time-to-live value."
+    },
+    {
+      "path": "traffic_features.packet_metadata.ttl_std",
+      "source_level": "packet",
+      "data_type": "number",
+      "aggregation": "population standard deviation of IP TTL",
+      "description": "TTL variability within the window."
+    },
+    {
+      "path": "traffic_features.packet_metadata.mean_tcp_window_size",
+      "source_level": "packet",
+      "data_type": "number",
+      "aggregation": "mean TCP window size",
+      "description": "Optional TCP flow-control feature; omitted only when unavailable in the source data."
+    },
+    {
+      "path": "traffic_features.packet_metadata.retransmission_count",
+      "source_level": "packet",
+      "data_type": "integer",
+      "aggregation": "count retransmission-marked packets",
+      "description": "Retransmission signal when the input parser can identify it."
+    },
+    {
+      "path": "traffic_features.packet_metadata.fragment_count",
+      "source_level": "packet",
+      "data_type": "integer",
+      "aggregation": "count IP fragments",
+      "description": "IP fragmentation activity."
+    }
+  ],
+  "graph_features": [
+    {
+      "path": "nodes[].{in_degree,out_degree}",
+      "aggregation": "count distinct communicating neighbours",
+      "description": "Inbound and outbound relationship counts for an IP node."
+    },
+    {
+      "path": "nodes[].{bytes_sent,bytes_received}",
+      "aggregation": "sum bytes over incident directed edges",
+      "description": "Per-node traffic volume."
+    },
+    {
+      "path": "edges[].{packet_count,byte_count,flow_count}",
+      "aggregation": "sum or count for one directed source-target pair",
+      "description": "Communication volume on the directed edge."
+    },
+    {
+      "path": "edges[].dst_ports",
+      "aggregation": "sorted distinct destination ports for the directed pair",
+      "description": "Services accessed on the edge."
+    },
+    {
+      "path": "edges[].protocol_counts",
+      "aggregation": "count protocols for the directed pair",
+      "description": "Protocol mix on the edge."
+    }
+  ],
+  "data_quality_rules": [
+    "Use UTC timestamps and order states chronologically.",
+    "Calculate each feature from records inside the current window only.",
+    "Represent unavailable packet-only data explicitly as unavailable during ingestion; do not invent values.",
+    "Fit any future scaler or encoder on training data only and persist it separately for inference."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "input": {
+    "kind": "classic_pcap",
+    "path": "data/raw/ctu13/ctu13_scenario1_neris_botnet.pcap",
+    "record_count": 322248,
+    "sha256": "b89cd5931f62d87ceff266568c97c6e36e56dd0330813cacadbc14a6c5576a36"
+  },
+  "outputs": {
+    "graph_states": "network_states/ctu13_scenario1/ctu13_scenario1_neris_botnet.graph_states.jsonl",
+    "manifest": "network_states/ctu13_scenario1/ctu13_scenario1_neris_botnet.manifest.json",
+    "network_states": "network_states/ctu13_scenario1/ctu13_scenario1_neris_botnet.network_states.jsonl"
+  },
+  "schema_version": "1.0",
+  "source": {
+    "dataset": "CTU-13",
+    "scenario": "scenario-1-neris",
+    "split": "demo"
+  },
+  "state_count": 1702,
+  "window_seconds": 10
+}

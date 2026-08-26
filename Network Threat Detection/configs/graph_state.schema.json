@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "graph_state.schema.json",
+  "title": "Time-Windowed Network Communication Graph",
+  "description": "Contract for the directed communication graph reconstructed from one network-state window.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "state_id",
+    "timestamp",
+    "window_seconds",
+    "nodes",
+    "edges"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "state_id": {
+      "type": "string",
+      "description": "The matching network_state.state_id."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "window_seconds": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "nodes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "edges": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/edge" }
+    }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "ip_address", "in_degree", "out_degree", "bytes_sent", "bytes_received"],
+      "properties": {
+        "id": { "type": "string" },
+        "ip_address": { "type": "string" },
+        "in_degree": { "type": "integer", "minimum": 0 },
+        "out_degree": { "type": "integer", "minimum": 0 },
+        "bytes_sent": { "type": ["number", "null"], "minimum": 0 },
+        "bytes_received": { "type": ["number", "null"], "minimum": 0 },
+        "role_hint": { "type": "string", "enum": ["internal", "external", "unknown"] }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "target", "packet_count", "byte_count", "flow_count", "protocol_counts", "dst_ports"],
+      "properties": {
+        "source": { "type": "string" },
+        "target": { "type": "string" },
+        "packet_count": { "type": ["number", "null"], "minimum": 0 },
+        "byte_count": { "type": ["number", "null"], "minimum": 0 },
+        "flow_count": { "type": "integer", "minimum": 0 },
+        "protocol_counts": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "dst_ports": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 0, "maximum": 65535 },
+          "uniqueItems": true
+        },
+        "syn_count": { "type": ["integer", "null"], "minimum": 0 },
+        "mean_iat_ms": { "type": ["number", "null"], "minimum": 0 }
+      }
+    }
+  }
+}

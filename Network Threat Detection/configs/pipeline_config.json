@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "default_window_seconds": 10,
+  "chronological_split_ratios": {
+    "train": 0.7,
+    "validation": 0.15,
+    "test": 0.15
+  },
+  "benign_labels": ["BENIGN", "NORMAL", "0", "FALSE"],
+  "required_canonical_fields": ["timestamp", "src_ip", "dst_ip"],
+  "column_aliases": {
+    "timestamp": ["timestamp", "time", "flow start time", "flow_start_time", "date first seen", "start time", "starttime"],
+    "src_ip": ["source ip", "sourceip", "src ip", "src_ip", "source", "srcaddr"],
+    "dst_ip": ["destination ip", "destinationip", "dst ip", "dst_ip", "destination", "dstaddr"],
+    "src_port": ["source port", "src port", "src_port", "sport"],
+    "dst_port": ["destination port", "dst port", "dst_port", "dport"],
+    "protocol": ["protocol", "protocol name", "proto"],
+    "packet_count": ["total packets", "packet count", "packets", "totpkts"],
+    "fwd_packet_count": ["total fwd packets", "total forward packets", "fwd packets", "tot fwd pkts"],
+    "bwd_packet_count": ["total backward packets", "total bwd packets", "bwd packets", "backward packets", "tot bwd pkts"],
+    "byte_count": ["total bytes", "byte count", "bytes", "totbytes"],
+    "fwd_byte_count": ["total length of fwd packets", "total length of forward packets", "fwd packet length total", "totlen fwd pkts"],
+    "bwd_byte_count": ["total length of bwd packets", "total length of backward packets", "bwd packet length total", "totlen bwd pkts"],
+    "flow_duration": ["flow duration", "duration", "dur"],
+    "syn_count": ["syn flag count", "syn count"],
+    "ack_count": ["ack flag count", "ack count"],
+    "fin_count": ["fin flag count", "fin count"],
+    "rst_count": ["rst flag count", "rst count"],
+    "psh_count": ["psh flag count", "psh count"],
+    "urg_count": ["urg flag count", "urg count"],
+    "iat_mean_ms": ["flow iat mean", "iat mean", "mean iat ms"],
+    "iat_std_ms": ["flow iat std", "iat std", "std iat ms"],
+    "iat_max_ms": ["flow iat max", "iat max", "max iat ms"],
+    "ttl": ["ttl", "ip ttl"],
+    "tcp_window_size": ["tcp window size", "window size", "init_win_bytes_forward"],
+    "retransmission_count": ["retransmission count", "retransmissions"],
+    "fragment_count": ["fragment count", "fragments"],
+    "label": ["label", "class", "attack", "attack category"]
+  },
+  "duration_units": {
+    "flowduration": "microseconds",
+    "duration": "seconds",
+    "dur": "seconds"
+  }
+}
