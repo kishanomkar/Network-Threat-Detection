@@ -1,0 +1,36 @@
+{
+  "name": "multi-model-prediction-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.3.3",
+    "axios": "latest",
+    "framer-motion": "latest",
+    "lucide-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-force-graph-3d": "latest",
+    "react-hook-form": "latest",
+    "react-hot-toast": "latest",
+    "react-router-dom": "latest",
+    "three": "latest",
+    "three-spritetext": "latest"
+  },
+  "devDependencies": {
+    "autoprefixer": "latest",
+    "eslint": "latest",
+    "eslint-plugin-react-hooks": "latest",
+    "eslint-plugin-react-refresh": "latest",
+    "playwright": "^1.61.1",
+    "postcss": "latest",
+    "tailwindcss": "^3.4.17",
+    "vite": "^5.4.10"
+  }
+}
