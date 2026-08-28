@@ -6,7 +6,7 @@ import { CheckCircle2 } from "lucide-react";
 import { nodeColor, nodeSize } from "../utils/graphBuilder.js";
 import GraphLegend from "./GraphLegend.jsx";
 
-const FraudGraph3D = ({ graphData, onNodeSelect }) => {
+const FraudGraph3D = ({ graphData, onNodeSelect, title = "3D Fraud Link Analysis", subtitle = "Rotate, zoom, pan, and click nodes for intelligence details." }) => {
   const graphRef = useRef(null);
   const containerRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 320, height: 520 });
@@ -61,9 +61,9 @@ const FraudGraph3D = ({ graphData, onNodeSelect }) => {
     <section className="panel overflow-hidden">
       <div className="flex flex-col gap-3 border-b border-slate-200 p-5 dark:border-slate-800 md:flex-row md:items-center md:justify-between">
         <div>
-          <h2 className="text-lg font-bold text-slate-950 dark:text-white">3D Fraud Link Analysis</h2>
+          <h2 className="text-lg font-bold text-slate-950 dark:text-white">{title}</h2>
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            Rotate, zoom, pan, and click nodes for intelligence details.
+            {subtitle}
           </p>
         </div>
         <GraphLegend />
@@ -104,7 +104,7 @@ const FraudGraph3D = ({ graphData, onNodeSelect }) => {
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-5">
             <div className="rounded-xl border border-emerald-400/30 bg-emerald-950/70 p-5 text-center text-emerald-100 backdrop-blur">
               <CheckCircle2 className="mx-auto h-9 w-9" />
-              <p className="mt-3 text-sm font-semibold">No suspicious activity detected.</p>
+              <p className="mt-3 text-sm font-semibold">No graph activity detected.</p>
             </div>
           </div>
         )}

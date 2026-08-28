@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+pydantic
+python-multipart
+pandas
+numpy
+pyarrow
+joblib
+scapy
+torch
+scikit-learn
+xgboost
+shap
+networkx
+sqlalchemy
+pytest
+httpx
