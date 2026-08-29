@@ -20,6 +20,7 @@
     "react-hook-form": "latest",
     "react-hot-toast": "latest",
     "react-router-dom": "latest",
+    "recharts": "^3.10.1",
     "three": "latest",
     "three-spritetext": "latest"
   },
