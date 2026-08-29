@@ -129,10 +129,14 @@ def _iter_classic_pcap_records(path: Path) -> Iterator[dict[str, Any]]:
                 yield record
 
 
-def read_classic_pcap(path: str | Path) -> pd.DataFrame:
+def read_classic_pcap(path: str | Path, max_records: int | None = 15000) -> pd.DataFrame:
     """Read a classic PCAP file into the canonical packet-record frame."""
     capture_path = Path(path)
-    records = list(_iter_classic_pcap_records(capture_path))
+    records: list[dict[str, Any]] = []
+    for record in _iter_classic_pcap_records(capture_path):
+        records.append(record)
+        if max_records is not None and len(records) >= max_records:
+            break
     if not records:
         raise ValueError("No Ethernet/IPv4 packet records were found in the PCAP")
     return pd.DataFrame(records, columns=CANONICAL_COLUMNS)

@@ -1,0 +1,176 @@
+﻿{
+  "audit_version": "1.0",
+  "audit_date": "2026-08-29",
+  "project_title": "ANTCM - AI-Based Network Attack Forecasting",
+  "features": [
+    {
+      "name": "Current Threat Detection",
+      "route": "/network/threats",
+      "purpose": "Real-time threat classification of the latest traffic window.",
+      "what_user_sees": "Risk Gauge, current attack stage, severity level, classifier confidence percentage, and active threat evidence panel.",
+      "data_displayed": [
+        "Overall threat risk (0-100)",
+        "Classification status (NORMAL, SUSPICIOUS, ATTACK)",
+        "Current attack type stage",
+        "Confidence score",
+        "Active threat evidence logs"
+      ],
+      "data_source": "backend/app/detection/current_threat.py",
+      "api": "POST /api/threats/current",
+      "frontend_components": [
+        "frontend/src/pages/network/CurrentThreats.jsx"
+      ],
+      "backend_components": [
+        "backend/app/detection/current_threat.py:detect_current_threat"
+      ],
+      "input_data": "Chronological windowed network states DataFrame",
+      "features_used": [
+        "scan_score",
+        "beacon_score",
+        "exfiltration_score"
+      ],
+      "data_origin": "Rule-based + Statistical",
+      "model": "None (Heuristic mapping)",
+      "model_file": "None",
+      "model_type": "Heuristic thresholds",
+      "preprocessing": "None",
+      "output": "current_status, current_attack, current_risk, current_risk_level, confidence, evidence",
+      "post_processing": "Confidence capped and mapped mathematically from the max of inferred attack probability and calculated risk.",
+      "graphical_representation": "Gauge + status indicator + list panel",
+      "dynamic_or_static": "DYNAMIC - Updates automatically based on features extracted from the uploaded capture file.",
+      "real_data_verification": "Tested using the CTU-13 Neris PCAP file; values update dynamically when run.",
+      "limitations": [
+        "Does not call the ANTCM ML classifier directly for inference due to scikit-learn dependency version mismatches."
+      ],
+      "sih_readiness": "REAL & WORKING"
+    },
+    {
+      "name": "Future Attack Forecasting",
+      "route": "/network/forecast",
+      "purpose": "Forecast future risk and stage progression for upcoming network states.",
+      "what_user_sees": "Future risk headline, 60-min horizon KPI, forecasted risk area chart, and 4-step forward timeline simulation.",
+      "data_displayed": [
+        "Forecasted risk score (0-100)",
+        "Predicted attack stage",
+        "Model confidence percentage",
+        "Future simulation steps (T+1 to T+4)"
+      ],
+      "data_source": "backend/app/forecasting/lstm_service.py or backend/app/forecasting/fallback_world_model.py",
+      "api": "POST /api/forecast/file",
+      "frontend_components": [
+        "frontend/src/pages/network/AttackForecast.jsx"
+      ],
+      "backend_components": [
+        "backend/app/forecasting/lstm_service.py:LstmForecastService",
+        "backend/app/forecasting/fallback_world_model.py:forecast_with_temporal_fallback"
+      ],
+      "input_data": "Last 5 network states as a sequence",
+      "features_used": [
+        "feature_vector"
+      ],
+      "data_origin": "ML model (when available) / Fallback (Rule-based)",
+      "model": "LstmWorldModel",
+      "model_file": "models/lstm_world_model.pt",
+      "model_type": "LSTM Multi-task model",
+      "preprocessing": "StandardScaler / states_to_matrix normalization",
+      "output": "predicted_risk, predicted_stage, confidence, forecast timeline steps",
+      "post_processing": "Probabilities rounded and formatted into percentages.",
+      "graphical_representation": "Risk Over Time Area Chart + simulation cards",
+      "dynamic_or_static": "DYNAMIC - Changes according to the network state sequence calculated from input PCAP.",
+      "real_data_verification": "LSTM model loads successfully on disk. If disabled, the deterministic mathematical trend fallback is invoked.",
+      "limitations": [
+        "LSTM is trained on synthetic sequence vectors; real-world drift may occur."
+      ],
+      "sih_readiness": "REAL & WORKING"
+    },
+    {
+      "name": "Network Behaviour Graph",
+      "route": "/network/graph",
+      "purpose": "Build and visualize host communication topologies dynamically.",
+      "what_user_sees": "3D host network graph, host metrics (Hosts, Connections, Suspicious Hosts, Critical Hosts), and clicked node inspection panel.",
+      "data_displayed": [
+        "Node IPs and labels",
+        "Outbound/inbound communication edges",
+        "Host counts and risk severity levels",
+        "Selected node in-degree, out-degree, bytes sent/received"
+      ],
+      "data_source": "graph_builder/builder.py",
+      "api": "POST /api/graph/network",
+      "frontend_components": [
+        "frontend/src/pages/network/NetworkGraphPage.jsx",
+        "frontend/src/components/FraudGraph3D.jsx"
+      ],
+      "backend_components": [
+        "graph_builder/builder.py:build_graph_state",
+        "backend/app/graph/network_graph.py:build_network_behavior_graph"
+      ],
+      "input_data": "Network state window records DataFrame",
+      "features_used": [
+        "src_ip",
+        "dst_ip",
+        "dst_port",
+        "byte_count",
+        "packet_count"
+      ],
+      "data_origin": "Statistical / Structural Graph State",
+      "model": "None",
+      "model_file": "None",
+      "model_type": "None",
+      "preprocessing": "Groupby src/dst IPs and count packet and byte volumes",
+      "output": "nodes, links, state summary stats",
+      "post_processing": "Decorated node size and edge width mappings.",
+      "graphical_representation": "Interactive 3D forced-directed topology layout",
+      "dynamic_or_static": "DYNAMIC",
+      "real_data_verification": "Verified end-to-end; node list matches exactly the unique IPs in the analyzed capture segment.",
+      "limitations": [
+        "Limited to 3D representation; layout can get cluttered for large captures (>5000 records)."
+      ],
+      "sih_readiness": "REAL & WORKING"
+    },
+    {
+      "name": "Threat Risk Scoring",
+      "route": "/network/risk",
+      "purpose": "Expose multi-component composite risk assessment metrics.",
+      "what_user_sees": "Overall risk level (Low, Medium, High, Critical), current vs future risk comparison, score breakdown, risk trend list, and plain-English risk explanation.",
+      "data_displayed": [
+        "Overall composite risk score (0-100)",
+        "Risk level band",
+        "Breakdown components",
+        "Horizontal risk trend timeline",
+        "Why risk increased text explanation"
+      ],
+      "data_source": "backend/app/risk/risk_engine.py",
+      "api": "POST /api/risk/assessment",
+      "frontend_components": [
+        "frontend/src/pages/network/RiskIntelligence.jsx"
+      ],
+      "backend_components": [
+        "backend/app/risk/risk_engine.py:score_composite_risk",
+        "backend/app/api/routes_risk.py:get_risk_assessment"
+      ],
+      "input_data": "Canonical network states list",
+      "features_used": [
+        "scan_score",
+        "beacon_score",
+        "exfiltration_score",
+        "bytes_total",
+        "port_fanout",
+        "host_fanout"
+      ],
+      "data_origin": "Rule-based / Engineered scoring formulas",
+      "model": "None (Engineered formula)",
+      "model_file": "None",
+      "model_type": "Weighted blending",
+      "preprocessing": "Features normalized to 0-1 scale",
+      "output": "overall_risk_score, risk_level, current_risk, future_risk, components, risk_trend, top_risk_drivers, explanation",
+      "post_processing": "Risk values mapped into risk bands (LOW 0-30, MEDIUM 31-60, HIGH 61-80, CRITICAL 81-100).",
+      "graphical_representation": "Gauge + tabular breakdown + timeline path",
+      "dynamic_or_static": "DYNAMIC",
+      "real_data_verification": "Formulas verified against backend codebase. Score updates dynamically when new PCAP is processed.",
+      "limitations": [
+        "Scoring weights are hardcoded as static coefficients in the risk engine."
+      ],
+      "sih_readiness": "REAL & WORKING"
+    }
+  ]
+}

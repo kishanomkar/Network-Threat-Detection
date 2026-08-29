@@ -1,4 +1,4 @@
-﻿import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import {
   assessThreatRisk,
@@ -7,6 +7,7 @@ import {
   buildNetworkGraph,
   detectCurrentThreat,
   explainPrediction,
+  fetchRiskTimeline,
   forecastNetworkTraffic,
   getHealth,
 } from "../services/api.js";
@@ -26,6 +27,7 @@ export function NetworkProvider({ children }) {
   const [investigation, setInvestigation] = useState(null);
   const [explanation, setExplanation] = useState(null);
   const [riskAssessment, setRiskAssessment] = useState(null);
+  const [riskTimeline, setRiskTimeline] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [error, setError] = useState(null);
   const [lastAnalysis, setLastAnalysis] = useState(null);
@@ -58,7 +60,7 @@ export function NetworkProvider({ children }) {
     setError(null);
     const id = toast.loading("Running full network analysis...");
     try {
-      const [threat, fc, tl, graph, inv, expl, risk] = await Promise.allSettled([
+      const [threat, fc, tl, graph, inv, expl, risk, rtl] = await Promise.allSettled([
         detectCurrentThreat(basePayload({ max_records: 1000 })),
         forecastNetworkTraffic(basePayload({ sequence_length: 5, horizon: 5 })),
         buildAttackTimeline(basePayload({ sequence_length: 5, horizon: 5, observed_limit: 10 })),
@@ -66,7 +68,21 @@ export function NetworkProvider({ children }) {
         buildInvestigationCase(basePayload({ max_records: 250, sequence_length: 4, horizon: 3 })),
         explainPrediction(basePayload({ max_records: 400 })),
         assessThreatRisk(basePayload({ max_records: 400 })),
+        fetchRiskTimeline(basePayload({ observed_limit: 12, horizon: 5 })),
       ]);
+
+      const rejected = [threat, fc, tl, graph, inv, expl, risk, rtl].filter(
+        (p) => p.status === "rejected"
+      );
+
+      if (rejected.length > 0) {
+        const errMsg = rejected[0].reason?.message || "Failed to process network capture file.";
+        setError(errMsg);
+        toast.dismiss(id);
+        toast.error(`Analysis failed: ${errMsg}`);
+        return;
+      }
+
       if (threat.status === "fulfilled") setCurrentThreat(threat.value);
       if (fc.status === "fulfilled") setForecast(fc.value);
       if (tl.status === "fulfilled") setTimeline(tl.value);
@@ -74,6 +90,7 @@ export function NetworkProvider({ children }) {
       if (inv.status === "fulfilled") setInvestigation(inv.value);
       if (expl.status === "fulfilled") setExplanation(expl.value);
       if (risk.status === "fulfilled") setRiskAssessment(risk.value);
+      if (rtl.status === "fulfilled") setRiskTimeline(rtl.value);
       setLastAnalysis(new Date());
       toast.dismiss(id);
       toast.success("Analysis complete");
@@ -93,9 +110,10 @@ export function NetworkProvider({ children }) {
   const runInvestigation = useCallback(async () => { const d = await buildInvestigationCase(basePayload({ max_records: 250, sequence_length: 4, horizon: 3 })); setInvestigation(d); return d; }, [basePayload]);
   const runExplanation = useCallback(async () => { const d = await explainPrediction(basePayload({ max_records: 400 })); setExplanation(d); return d; }, [basePayload]);
   const runRisk = useCallback(async () => { const d = await assessThreatRisk(basePayload({ max_records: 400 })); setRiskAssessment(d); return d; }, [basePayload]);
+  const runRiskTimeline = useCallback(async () => { const d = await fetchRiskTimeline(basePayload({ observed_limit: 12, horizon: 5 })); setRiskTimeline(d); return d; }, [basePayload]);
 
   return (
-    <NetworkContext.Provider value={{ path, setPath, dataset, setDataset, health, currentThreat, forecast, timeline, networkGraph, investigation, explanation, riskAssessment, analyzing, error, lastAnalysis, runFullAnalysis, runThreat, runForecast, runTimeline, runGraph, runInvestigation, runExplanation, runRisk }}>
+    <NetworkContext.Provider value={{ path, setPath, dataset, setDataset, health, currentThreat, forecast, timeline, networkGraph, investigation, explanation, riskAssessment, riskTimeline, analyzing, error, lastAnalysis, runFullAnalysis, runThreat, runForecast, runTimeline, runGraph, runInvestigation, runExplanation, runRisk, runRiskTimeline }}>
       {children}
     </NetworkContext.Provider>
   );

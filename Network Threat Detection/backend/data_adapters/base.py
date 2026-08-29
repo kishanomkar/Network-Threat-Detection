@@ -29,13 +29,28 @@ class DatasetAdapter(Protocol):
         """Load and normalize source traffic into Person 1 canonical records."""
 
 
+from functools import lru_cache
+
+@lru_cache(maxsize=16)
+def _cached_load_pcap(path_str: str) -> AdapterResult:
+    records = normalise_packet_frame(read_classic_pcap(Path(path_str)))
+    warnings = ["Flow duration is unavailable for packet-only PCAP input."]
+    return AdapterResult(records=records, dataset=DatasetKind.PCAP.value, source_kind="classic_pcap", warnings=warnings)
+
+
+@lru_cache(maxsize=16)
+def _cached_load_csv(path_str: str, dataset_value: str) -> AdapterResult:
+    config = load_pipeline_config()
+    records = normalise_flow_frame(pd.read_csv(path_str), config)
+    return AdapterResult(records=records, dataset=dataset_value, source_kind="flow_csv", warnings=[])
+
+
 class GenericCsvAdapter:
     dataset = DatasetKind.GENERIC_CSV
 
     def load(self, path: str | Path) -> AdapterResult:
-        config = load_pipeline_config()
-        records = normalise_flow_frame(pd.read_csv(path), config)
-        return AdapterResult(records=records, dataset=self.dataset.value, source_kind="flow_csv", warnings=[])
+        path_str = str(Path(path).resolve())
+        return _cached_load_csv(path_str, self.dataset.value)
 
 
 class CicIds2018Adapter(GenericCsvAdapter):
@@ -54,9 +69,8 @@ class PcapAdapter:
     dataset = DatasetKind.PCAP
 
     def load(self, path: str | Path) -> AdapterResult:
-        records = normalise_packet_frame(read_classic_pcap(Path(path)))
-        warnings = ["Flow duration is unavailable for packet-only PCAP input."]
-        return AdapterResult(records=records, dataset=self.dataset.value, source_kind="classic_pcap", warnings=warnings)
+        path_str = str(Path(path).resolve())
+        return _cached_load_pcap(path_str)
 
 
 def get_adapter(dataset: DatasetKind | str) -> DatasetAdapter:

@@ -49,6 +49,7 @@ export const buildInvestigationCase = (payload) => request(() => apiClient.post(
 export const explainPrediction = (payload) => request(() => apiClient.post("/api/explain/why", payload));
 export const scoreThreatRisk = (payload) => request(() => apiClient.post("/api/risk/score", payload));
 export const assessThreatRisk = (payload) => request(() => apiClient.post("/api/risk/assessment", payload));
+export const fetchRiskTimeline = (payload) => request(() => apiClient.post("/api/risk/timeline", payload));
 export const predictNetwork = (payload) => request(() => apiClient.post("/predict/network_intrusion", payload));
 export const predictGeneral = (payload) => request(() => apiClient.post("/predict/general", payload));
 export const predictFraud = (payload) => request(() => apiClient.post("/predict/fraud", payload));

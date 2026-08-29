@@ -59,16 +59,16 @@ export default function TerminalSidebar() {
       <div className="p-4 border-b border-[#1a2333] flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 bg-cyan-500/10 border border-cyan-500/40 rounded flex items-center justify-center text-cyan-400 font-mono font-black text-sm">
-            A
+            N
           </div>
           <div>
             <div className="font-mono font-bold text-slate-100 tracking-wider text-sm flex items-center gap-1.5">
-              ANTCM
+              NETRA
               <span className="text-[10px] bg-cyan-500/20 text-cyan-400 px-1 py-0.5 rounded font-sans border border-cyan-500/30">
                 PRO
               </span>
             </div>
-            <div className="text-[10px] text-slate-500 font-mono">SOC WAR ROOM v2.4</div>
+            <div className="text-[11px] text-slate-500 font-mono">Empowering Cyber Defense</div>
           </div>
         </div>
       </div>
