@@ -1,11 +1,11 @@
-﻿import TerminalLayout from "../../layouts/TerminalLayout";
+import TerminalLayout from "../../layouts/TerminalLayout";
 import MetricCard from "../../components/terminal/MetricCard";
 import RiskChart from "../../components/terminal/RiskChart";
 import { useNetwork } from "../../context/NetworkContext";
 import { Gauge, Info } from "lucide-react";
 
 export default function RiskIntelligence() {
-  const { riskAssessment } = useNetwork();
+  const { riskAssessment, riskTimeline } = useNetwork();
 
   const overallRisk = riskAssessment?.overall_risk_score ?? 72;
   const level = riskAssessment?.risk_level ?? "HIGH";
@@ -18,6 +18,15 @@ export default function RiskIntelligence() {
     attack_stage: 45,
     anomaly: 25,
   };
+
+  const chartData = riskTimeline?.chart && riskTimeline.chart.length > 0
+    ? riskTimeline.chart
+    : riskAssessment?.risk_trend && riskAssessment.risk_trend.length > 0
+    ? riskAssessment.risk_trend.map((r) => ({
+        time: r.timestamp,
+        observed: r.risk,
+      }))
+    : [];
 
   return (
     <TerminalLayout title="Threat Risk Intelligence">
@@ -58,7 +67,7 @@ export default function RiskIntelligence() {
           {/* Risk Trend Chart */}
           <div className="md:col-span-2 bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm">
             <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2">Composite Risk Trend over Time</h3>
-            <RiskChart height={220} />
+            <RiskChart data={chartData} height={220} />
           </div>
         </div>
 

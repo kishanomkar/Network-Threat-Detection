@@ -1,23 +1,58 @@
-﻿import TerminalLayout from "../../layouts/TerminalLayout";
+import TerminalLayout from "../../layouts/TerminalLayout";
 import MetricCard from "../../components/terminal/MetricCard";
 import RiskChart from "../../components/terminal/RiskChart";
 import { useNetwork } from "../../context/NetworkContext";
 import { TrendingUp, AlertTriangle } from "lucide-react";
 
 export default function AttackForecast() {
-  const { forecast } = useNetwork();
+  const { forecast, riskTimeline } = useNetwork();
 
   const futureRisk = forecast?.future_risk ?? 68;
   const stage = forecast?.predicted_stage ?? "Command & Control";
   const confidence = forecast?.confidence ?? 87;
   const model = forecast?.model ?? "LSTM World Model v1.0";
 
-  const steps = [
+  const fallbackSteps = [
     { step: "T+1 (+15m)", risk: 45, stage: "Lateral Movement", level: "Medium", color: "text-amber-400 border-amber-800 bg-amber-950/30" },
     { step: "T+2 (+30m)", risk: 56, stage: "Command & Control", level: "Medium", color: "text-amber-400 border-amber-800 bg-amber-950/30" },
     { step: "T+3 (+45m)", risk: 64, stage: "Command & Control", level: "High", color: "text-orange-400 border-orange-800 bg-orange-950/30" },
     { step: "T+4 (+60m)", risk: 68, stage: "Exfiltration", level: "Critical", color: "text-red-400 border-red-800 bg-red-950/30" },
   ];
+
+  const steps = forecast?.timeline && forecast.timeline.length > 0
+    ? forecast.timeline.slice(0, 4).map((s) => {
+        const riskVal = Math.round(s.risk <= 1 ? s.risk * 100 : s.risk);
+        const level = riskVal >= 70 ? "Critical" : riskVal >= 50 ? "High" : riskVal >= 30 ? "Medium" : "Low";
+        const color = riskVal >= 70
+          ? "text-red-400 border-red-800 bg-red-950/30"
+          : riskVal >= 50
+          ? "text-orange-400 border-orange-800 bg-orange-950/30"
+          : "text-amber-400 border-amber-800 bg-amber-950/30";
+        return {
+          step: `T+${s.step} (+${s.step * 15}m)`,
+          risk: riskVal,
+          stage: s.stage || stage,
+          level,
+          color,
+        };
+      })
+    : fallbackSteps;
+
+  const chartData = riskTimeline?.chart && riskTimeline.chart.length > 0
+    ? riskTimeline.chart
+    : (forecast?.timeline && forecast.timeline.length > 0)
+    ? [
+        {
+          time: "Current",
+          observed: forecast.current_risk ?? 0,
+          forecast: forecast.current_risk ?? 0,
+        },
+        ...forecast.timeline.map((step) => ({
+          time: `T+${step.step}`,
+          forecast: Math.round(step.risk <= 1 ? step.risk * 100 : step.risk),
+        })),
+      ]
+    : [];
 
   return (
     <TerminalLayout title="LSTM Future Attack Forecasting">
@@ -48,7 +83,7 @@ export default function AttackForecast() {
               <p className="text-[11px] text-slate-500">Includes uncertainty bounds based on temporal state vectors</p>
             </div>
           </div>
-          <RiskChart height={260} />
+          <RiskChart data={chartData} height={260} />
         </div>
 
         {/* Step-by-Step Predictions */}
@@ -76,7 +111,9 @@ export default function AttackForecast() {
           <div>
             <h4 className="text-xs font-bold uppercase text-amber-400">Why is risk increasing?</h4>
             <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-              The model detected a sustained increase in scan activity (+57%) and host fan-out (+21%), which typically precedes lateral movement and command-and-control establishment.
+              {forecast?.evidence && forecast.evidence.length > 0
+                ? forecast.evidence.join(". ")
+                : "The model detected a sustained increase in scan activity (+57%) and host fan-out (+21%), which typically precedes lateral movement and command-and-control establishment."}
             </p>
           </div>
         </div>
