@@ -19,6 +19,7 @@
     "react-force-graph-3d": "latest",
     "react-hook-form": "latest",
     "react-hot-toast": "latest",
+    "react-icons": "^5.7.0",
     "react-router-dom": "latest",
     "recharts": "^3.10.1",
     "three": "latest",

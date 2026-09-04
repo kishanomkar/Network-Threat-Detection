@@ -672,7 +672,29 @@ def _verbosity_filter(index, verbose):
 
 ###############################################################################
 def delayed(function):
-    """Decorator used to capture the arguments of a function."""
+    """Decorator used to capture the arguments of a function.
+
+    Parameters
+    ----------
+    function: callable
+        The function to be decorated.
+
+    Returns
+    -------
+    callable
+        A new function ``F`` such that calling ``F(*args, **kwargs)``
+        returns a tuple ``(function, args, kwargs)``, allowing the later
+        execution of ``function(*args, **kwargs)``.
+
+    Notes
+    -----
+    Be careful about the order in which decorators are applied, especially
+    when using :meth:`Memory.cache<joblib.Memory.cache>`. For instance,
+    ``Memory.cache(delayed(func))`` will cache the outputs of
+    ``delayed(func)``, that is, tuples of the form ``(func, args, kwargs)``.
+    To cache the outputs of ``func`` itself, you must instead use
+    ``delayed(Memory.cache(func))``.
+    """
 
     def delayed_function(*args, **kwargs):
         return function, args, kwargs
@@ -1811,7 +1833,11 @@ class Parallel(Logger):
                 # timeouts before any other dispatched job has completed and
                 # been added to `self._jobs` to be retrieved.
                 if timeout_control_job is None:
-                    timeout_control_job = next(iter(self._jobs_set), None)
+                    try:
+                        timeout_control_job = self._jobs_set.pop()
+                        self._jobs_set.add(timeout_control_job)
+                    except KeyError:
+                        timeout_control_job = None
 
                 # NB: it can be None if no job has been dispatched yet.
                 if timeout_control_job is not None:

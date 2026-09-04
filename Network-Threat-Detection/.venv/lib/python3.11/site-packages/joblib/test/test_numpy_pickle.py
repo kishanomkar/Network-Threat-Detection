@@ -15,6 +15,7 @@ import warnings
 import zlib
 from contextlib import closing
 from pathlib import Path
+from uuid import uuid4
 
 try:
     import lzma
@@ -263,6 +264,57 @@ def test_memmap_persistence_mixed_dtypes(tmpdir):
 
 
 @with_numpy
+def test_object_array_inner_stream_uses_caller_find_class(tmpdir):
+    # An object-dtype array is serialized as a nested pickle stream inside the
+    # joblib file. Check that security harden Unpickler propagates its
+    # constraints.
+    filename = tmpdir.join("test.pkl").strpath
+
+    class _Boom:
+        # A global that a hardened ``find_class`` is expected to reject.
+        def __reduce__(self):
+            return (os.getcwd, ())
+
+    obj_array = np.array([_Boom()], dtype=object)
+    numpy_pickle.dump(obj_array, filename)
+
+    rejected = []
+
+    class RestrictedUnpickler(numpy_pickle.NumpyUnpickler):
+        # Stores its policy as a keyword-only argument to make sure the
+        # restriction is preserved even though the inner unpickler is not
+        # reconstructed from this constructor.
+        def __init__(self, *args, blocked_modules=(), **kwargs):
+            super().__init__(*args, **kwargs)
+            self.blocked_modules = set(blocked_modules)
+
+        def find_class(self, module, name):
+            if module.split(".")[0] in self.blocked_modules:
+                rejected.append((module, name))
+                raise pickle.UnpicklingError(f"blocked {module}.{name}")
+            return super().find_class(module, name)
+
+    with open(filename, "rb") as f:
+        unpickler = RestrictedUnpickler(
+            filename,
+            f,
+            ensure_native_byte_order=True,
+            blocked_modules={"os", "posix", "nt"},
+        )
+        with pytest.raises(pickle.UnpicklingError, match="blocked"):
+            unpickler.load()
+
+    # The rejection must come from the *nested* object-array stream, proving
+    # the caller's find_class was applied there and not bypassed.
+    assert any(module in ("os", "posix", "nt") for module, _ in rejected)
+
+    # A permissive subclass still round-trips the object array correctly.
+    loaded = numpy_pickle.load(filename)
+    assert isinstance(loaded, np.ndarray)
+    assert loaded.dtype == object
+
+
+@with_numpy
 def test_masked_array_persistence(tmpdir):
     # The special-case picker fails, because saving masked_array
     # not implemented, but it just delegates to the standard pickler.
@@ -405,6 +457,11 @@ def _check_pickle(filename, expected_list, mmap_mode=None):
         try:
             with warnings.catch_warnings(record=True) as warninfo:
                 warnings.simplefilter("always")
+                # Ignore numpy >= 2.4 warning when loading old pickles, where
+                # align=0 but it should be a Python or Numpy boolean
+                warnings.filterwarnings(
+                    "ignore", message=".+align should be passed.+boolean.+align=0"
+                )
                 result_list = numpy_pickle.load(filename, mmap_mode=mmap_mode)
             filename_base = os.path.basename(filename)
             expected_nb_deprecation_warnings = (
@@ -962,6 +1019,23 @@ def test_pathlib(tmpdir):
     assert numpy_pickle.load(Path(filename)) == value
 
 
+def test_dump_and_load_accept_os_pathlike(tmpdir):
+    # dump() previously only accepted str and pathlib.Path, rejecting any
+    # other os.PathLike (e.g. BIDSPath from mne-bids). load() already worked
+    # because open() accepts os.PathLike; this test ensures both are consistent.
+    class CustomPath(os.PathLike):
+        def __init__(self, path):
+            self._path = path
+
+        def __fspath__(self):
+            return str(self._path)
+
+    path = CustomPath(tmpdir.join("test_pathlike.pkl").strpath)
+    value = {"key": [1, 2, 3]}
+    numpy_pickle.dump(value, path)
+    assert numpy_pickle.load(path) == value
+
+
 @with_numpy
 def test_non_contiguous_array_pickling(tmpdir):
     filename = tmpdir.join("test.pkl").strpath
@@ -999,10 +1073,10 @@ def test_pickle_highest_protocol(tmpdir):
 def test_pickle_in_socket():
     # test that joblib can pickle in sockets
     test_array = np.arange(10)
-    _ADDR = ("localhost", 12345)
     listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    listener.bind(_ADDR)
+    listener.bind(("localhost", 0))
     listener.listen(1)
+    _ADDR = listener.getsockname()
 
     with socket.create_connection(_ADDR) as client:
         server, client_addr = listener.accept()
@@ -1045,7 +1119,7 @@ def test_load_memmap_with_big_offset(tmpdir):
 
 def test_register_compressor(tmpdir):
     # Check that registering compressor file works.
-    compressor_name = "test-name"
+    compressor_name = "test-name" + str(uuid4())
     compressor_prefix = "test-prefix"
 
     class BinaryCompressorTestFile(io.BufferedIOBase):
@@ -1106,7 +1180,7 @@ class StandardLibGzipCompressorWrapper(CompressorWrapper):
 
 def test_register_compressor_already_registered():
     # Test registration of existing compressor files.
-    compressor_name = "test-name"
+    compressor_name = "test-name" + str(uuid4())
 
     # register a test compressor
     register_compressor(compressor_name, AnotherZlibCompressorWrapper())

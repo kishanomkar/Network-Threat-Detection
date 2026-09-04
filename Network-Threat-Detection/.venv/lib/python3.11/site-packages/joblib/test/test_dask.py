@@ -29,6 +29,10 @@ from distributed.metrics import time  # noqa: E402
 # and their dependencies.
 from distributed.utils_test import cleanup, cluster, inc  # noqa: E402, F401
 
+# https://github.com/joblib/joblib/issues/1818 is the tracking issue for fixing
+# this:
+pytestmark = pytest.mark.thread_unsafe
+
 
 @pytest.fixture(scope="function", autouse=True)
 def avoid_dask_env_leaks(tmp_path):
@@ -59,13 +63,14 @@ def slow_raise_value_error(condition, duration=0.05):
 
 
 def count_events(event_name, client):
-    worker_events = client.run(lambda dask_worker: dask_worker.log)
-    event_counts = {}
-    for w, events in worker_events.items():
-        event_counts[w] = len(
-            [event for event in list(events) if event[1] == event_name]
-        )
-    return event_counts
+    def work(dask_worker):
+        count = 0
+        for task_state in dask_worker.state.tasks.values():
+            task_story = dask_worker.state.story(task_state)
+            count += len([event for event in task_story if event[1] == event_name])
+        return count
+
+    return client.run(work)
 
 
 def test_simple(loop):

@@ -24,6 +24,7 @@ import ExplainabilityPage from "./pages/network/ExplainabilityPage.jsx";
 import RiskIntelligence from "./pages/network/RiskIntelligence.jsx";
 import DataCapture from "./pages/network/DataCapture.jsx";
 import ModelHealth from "./pages/network/ModelHealth.jsx";
+import Landing from "./pages/Landing.jsx";
 
 const NetworkWrapper = () => (
   <NetworkProvider>
@@ -40,6 +41,7 @@ const App = () => {
     <>
       <Routes>
         {/* Network SOC Pages (wrapped in NetworkProvider) */}
+                <Route path="/" element={<Landing/>} />
         <Route element={<NetworkWrapper />}>
           <Route path="/network" element={<Overview />} />
           <Route path="/network/threats" element={<CurrentThreats />} />
@@ -60,7 +62,6 @@ const App = () => {
           element={
             <Layout theme={theme.theme} onThemeToggle={theme.toggleTheme}>
               <Routes>
-                <Route path="/" element={<Dashboard intelligence={intelligence} />} />
                 <Route path="/general" element={<GeneralModel history={history} intelligence={intelligence} />} />
                 <Route path="/fraud" element={<FraudDetection history={history} intelligence={intelligence} />} />
                 <Route path="/credit-card" element={<CreditCard history={history} intelligence={intelligence} />} />
