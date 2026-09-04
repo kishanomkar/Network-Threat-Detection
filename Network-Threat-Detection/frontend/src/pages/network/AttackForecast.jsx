@@ -13,10 +13,10 @@ export default function AttackForecast() {
   const model = forecast?.model ?? "LSTM World Model v1.0";
 
   const fallbackSteps = [
-    { step: "T+1 (+15m)", risk: 45, stage: "Lateral Movement", level: "Medium", color: "text-amber-400 border-amber-800 bg-amber-950/30" },
-    { step: "T+2 (+30m)", risk: 56, stage: "Command & Control", level: "Medium", color: "text-amber-400 border-amber-800 bg-amber-950/30" },
-    { step: "T+3 (+45m)", risk: 64, stage: "Command & Control", level: "High", color: "text-orange-400 border-orange-800 bg-orange-950/30" },
-    { step: "T+4 (+60m)", risk: 68, stage: "Exfiltration", level: "Critical", color: "text-red-400 border-red-800 bg-red-950/30" },
+    { step: "T+1 (+15m)", risk: 45, stage: "Lateral Movement", level: "Medium", color: "text-amber-400 border-amber-800 " },
+    { step: "T+2 (+30m)", risk: 56, stage: "Command & Control", level: "Medium", color: "text-amber-400 border-amber-800 " },
+    { step: "T+3 (+45m)", risk: 64, stage: "Command & Control", level: "High", color: "text-orange-400 border-orange-800 " },
+    { step: "T+4 (+60m)", risk: 68, stage: "Exfiltration", level: "Critical", color: "text-red-400 border-red-800 " },
   ];
 
   const steps = forecast?.timeline && forecast.timeline.length > 0
@@ -24,10 +24,10 @@ export default function AttackForecast() {
         const riskVal = Math.round(s.risk <= 1 ? s.risk * 100 : s.risk);
         const level = riskVal >= 70 ? "Critical" : riskVal >= 50 ? "High" : riskVal >= 30 ? "Medium" : "Low";
         const color = riskVal >= 70
-          ? "text-red-400 border-red-800 bg-red-950/30"
+          ? "text-red-400 border-red-800 "
           : riskVal >= 50
-          ? "text-orange-400 border-orange-800 bg-orange-950/30"
-          : "text-amber-400 border-amber-800 bg-amber-950/30";
+          ? "text-orange-400 border-orange-800 "
+          : "text-amber-400 border-amber-800 ";
         return {
           step: `T+${s.step} (+${s.step * 15}m)`,
           risk: riskVal,
