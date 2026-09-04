@@ -6,6 +6,7 @@ import { useNetwork } from "../../context/NetworkContext";
 export default function NetworkGraphPage() {
   const { networkGraph } = useNetwork();
   const [selectedNode, setSelectedNode] = useState(null);
+  console.log("net",networkGraph);
 
   // Fallback demo graph if backend data not loaded
   const graphData = networkGraph?.graph || {

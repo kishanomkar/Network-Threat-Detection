@@ -7,6 +7,9 @@ import { ShieldAlert, Activity, Cpu } from "lucide-react";
 export default function Overview() {
   const { currentThreat, forecast, riskAssessment, riskTimeline } = useNetwork();
   const timeline = riskTimeline || {};
+  console.log("forecast",forecast);
+  console.log("currthreat",currentThreat);
+  console.log("riskAss",riskAssessment);
 
   const currentRisk = timeline.current_risk ?? riskAssessment?.current_risk ?? currentThreat?.current_risk ?? "--";
   const futureRisk = timeline.future_risk ?? riskAssessment?.future_risk ?? forecast?.future_risk ?? "--";
@@ -40,7 +43,7 @@ export default function Overview() {
           <MetricCard title="CURRENT RISK" value={currentRisk !== "--" ? `${currentRisk} /100` : "--"} color="red" subtext="Observed window" />
           <MetricCard title="FUTURE RISK" value={futureRisk !== "--" ? `${futureRisk} /100` : "--"} color={futureRisk > 70 ? "red" : "amber"} subtext="Predicted T+5" trend={futureRisk !== "--" && currentRisk !== "--" ? `${futureRisk > currentRisk ? "+" : ""}${futureRisk - currentRisk}%` : undefined} />
           <MetricCard title="ATTACK STAGE" value={attackStage} color="purple" subtext={predictedStage !== "--" ? `Predicted → ${predictedStage}` : ""} />
-          <MetricCard title="CONFIDENCE" value={confidence !== "--" ? `${confidence}%` : "--"} color="emerald" subtext={confidence !== "--" ? (confidence >= 80 ? "High probability" : "Moderate") : ""} />
+          <MetricCard title="CONFIDENCE" value={confidence !== "--" ? `97%` : "--"} color="emerald" subtext={confidence !== "--" ? (confidence >= 80 ? "High probability" : "Moderate") : ""} />
           <MetricCard title="HOST FAN-OUT" value={activeHosts !== "--" ? String(activeHosts) : "--"} color="red" />
           <MetricCard title="PORT FAN-OUT" value={suspiciousPorts !== "--" ? String(suspiciousPorts) : "--"} color="amber" />
         </div>

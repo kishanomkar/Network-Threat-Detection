@@ -14,10 +14,10 @@ import {
 
 const NetworkContext = createContext(null);
 
-export const DEMO_PATH = "data/raw/ctu13/ctu13_scenario1_neris_botnet.pcap";
+export const DEMO_PATH = ["data/raw/ctu13/ctu13_scenario1_neris_botnet.pcap","data/raw/ctu13/synthetic_traffic_safe.pcap"];
 
 export function NetworkProvider({ children }) {
-  const [path, setPath] = useState(DEMO_PATH);
+  const [path, setPath] = useState(DEMO_PATH[1]);
   const [dataset, setDataset] = useState("PCAP");
   const [health, setHealth] = useState(null);
   const [currentThreat, setCurrentThreat] = useState(null);

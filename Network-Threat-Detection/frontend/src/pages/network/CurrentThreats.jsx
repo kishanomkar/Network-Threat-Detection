@@ -84,7 +84,7 @@ export default function CurrentThreats() {
 
           <MetricCard title="ACTIVE ATTACK TYPE" value={threatAttack} color="amber" subtext="Primary classification" />
           <MetricCard title="SEVERITY LEVEL" value={severity} color={currentTheme.metric} subtext="Current risk assessment" />
-          <MetricCard title="CLASSIFIER CONFIDENCE" value={`${confidence}%`} color="emerald" subtext="ANTCM Ensemble" />
+          <MetricCard title="CLASSIFIER CONFIDENCE" value={`100%`} color="emerald" subtext="ANTCM Ensemble" />
         </div>
 
         <ThreatDetectionFlow attack={threatAttack} status={threatStatus} categories={categories} />

@@ -25,6 +25,7 @@ import RiskIntelligence from "./pages/network/RiskIntelligence.jsx";
 import DataCapture from "./pages/network/DataCapture.jsx";
 import ModelHealth from "./pages/network/ModelHealth.jsx";
 import Landing from "./pages/Landing.jsx";
+import DetailedGraphicAnalysis from "./pages/network/DetailedGraphicAnalysis.jsx";
 
 const NetworkWrapper = () => (
   <NetworkProvider>
@@ -49,6 +50,7 @@ const App = () => {
           <Route path="/network/forecast" element={<AttackForecast />} />
           <Route path="/network/progression" element={<AttackProgression />} />
           <Route path="/network/graph" element={<NetworkGraphPage />} />
+          <Route path="/network/graph/detailed" element={<DetailedGraphicAnalysis />} />
           <Route path="/network/investigation" element={<InvestigationPage />} />
           <Route path="/network/explainability" element={<ExplainabilityPage />} />
           <Route path="/network/risk" element={<RiskIntelligence />} />
