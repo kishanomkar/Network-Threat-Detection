@@ -33,7 +33,7 @@ export default function RiskIntelligence() {
       <div className="space-y-6 font-mono">
         {/* Gauge + Risk Level Header */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-[#0d121f] border border-red-900/50 p-5 rounded-sm flex items-center gap-4">
+          <div className="bg-[#FAF2CA] border border-red-900/50 p-5 rounded-sm flex items-center gap-4">
             <div className="w-16 h-16 rounded-full border-4 border-red-500 flex items-center justify-center text-red-400 font-bold text-2xl">
               {overallRisk}
             </div>
@@ -52,7 +52,7 @@ export default function RiskIntelligence() {
         {/* Risk Breakdown + Trend Chart */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Components */}
-          <div className="bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm space-y-4">
+          <div className="bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm space-y-4">
             <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider">Risk Score Breakdown</h3>
             <div className="space-y-3 text-xs">
               {Object.entries(components).map(([k, v]) => (
@@ -65,14 +65,14 @@ export default function RiskIntelligence() {
           </div>
 
           {/* Risk Trend Chart */}
-          <div className="md:col-span-2 bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm">
+          <div className="md:col-span-2 bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm">
             <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2">Composite Risk Trend over Time</h3>
             <RiskChart data={chartData} height={220} />
           </div>
         </div>
 
         {/* AI Risk Explanation */}
-        <div className="bg-[#0d121f] border border-orange-900/50 p-4 rounded-sm space-y-2">
+        <div className="bg-[#FAF2CA] border border-orange-900/50 p-4 rounded-sm space-y-2">
           <h3 className="text-xs font-bold uppercase text-orange-400 tracking-wider flex items-center gap-2">
             <Info className="w-4 h-4" /> AI Risk Decision Explanation
           </h3>

@@ -14,14 +14,14 @@ const Landing = () => {
       {/* Navigation */}
       <nav className="max-w-[1400px] mx-auto flex items-center justify-between px-2 md:px-8 bg-transparent">
         <div className="flex items-center text-xl font-bold tracking-tight">
-          Netra
-          <span className="relative z-10 inline-block ml-2">
+          <span className='text-[#091229]'>Netra</span>
+          <span className="relative text-[#faf2ca] z-10 inline-block ml-2">
             AI
-            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-[#D6F84D] rounded-full -z-10"></span>
+            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-[#091229] rounded-full -z-10"></span>
           </span>
         </div>
 
-        <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-800">
+        <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-[#091229]">
           <a href="#about" className="hover:text-black">About Us</a>
           <a href="#work" className="hover:text-black">Work</a>
           <a href="#price" className="hover:text-black">Price</a>
@@ -29,22 +29,22 @@ const Landing = () => {
         </div>
 
         <div className="flex items-center space-x-4">
-          <button className="hidden sm:block px-6 py-2.5 text-sm font-medium bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors">
+          <button className="text-[#091229] hidden sm:block px-6 py-2.5 text-sm font-medium bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors">
             Log In
           </button>
-          <button className="cursor-pointer flex items-center space-x-2 px-6 py-2.5 text-sm font-medium bg-black text-white rounded-xl hover:bg-gray-800 transition-colors">
+          <button className="cursor-pointer flex items-center space-x-2 px-6 py-2.5 text-sm font-medium bg-black text-white rounded-xl hover:bg-gray-800 transition-colors text-[#faf2ca] bg-[#091229]">
 Contact Us
           </button>
         </div>
       </nav>
 
       {/* Main Hero Card */}
-      <main className="max-w-[1400px] mx-auto mt-6 bg-[#D6F84D] rounded-[48px] px-8 py-16 md:px-16 lg:px-24 lg:py-24 relative overflow-hidden flex flex-col lg:flex-row items-center max-h-[710px]">
+      <main className="max-w-[1400px] mx-auto mt-6 bg-[#0A122A] rounded-[48px] px-8 py-16 md:px-16 lg:px-24 lg:py-24 relative overflow-hidden flex flex-col lg:flex-row items-center max-h-[710px]">
         
         {/* Left Content Area */}
         <div className="lg:w-[55%] relative z-20">
                         
-          <h1 className="text-6xl md:text-[85px]  font-semibold tracking-tight text-black relative inline-block">
+          <h1 className="text-6xl md:text-[85px]  font-semibold tracking-tight text-black relative inline-block text-[#faf2ca]">
             AI Based <br />
             Network Forcast<br />
             the Future
@@ -55,12 +55,12 @@ Contact Us
             </span>
           </h1>
 
-          <p className="mt-20 text-lg md:text-xl text-gray-900 max-w-md font-medium leading-relaxed">
+          <p className="mt-20 text-lg md:text-xl text-gray-900 max-w-md font-medium leading-relaxed text-[#faf2ca]">
             Predict and prevent network attacks before they happen using AI-powered forecasting from real-time network traffic data, with NetraAI!
           </p>
 
           <div className="mt-10 relative inline-block">
-            <button onClick={() => navigate('/network')} className="flex items-center space-x-3 px-8 py-4 bg-black text-white text-lg font-medium rounded-2xl cursor-pointer transition-colors z-20 relative">
+            <button onClick={() => navigate('/network')} className="flex items-center space-x-3 px-8 py-4 bg-[#FAF1CA] text-[#091229] text-lg font-medium rounded-2xl cursor-pointer transition-colors z-20 relative">
               <span>Let's Start</span>
               <FaLocationArrow />
             </button>
@@ -71,7 +71,7 @@ Contact Us
             </div>
           </div>
 
-          <div className="mt-[70px] flex items-center space-x-2 text-sm font-semibold cursor-pointer hover:opacity-70 transition-opacity">
+          <div className="mt-[70px] text-[#E4D6C5] flex items-center space-x-2 text-sm font-semibold cursor-pointer hover:opacity-70 transition-opacity">
             <span>Find Out More</span>
             <ArrowDownIcon />
           </div>
@@ -109,32 +109,9 @@ const ArrowDownIcon = () => (
 
 // Fixed SVG path: Physical 350x300 boundaries. Tail starts top-left, loops, points bottom-left.
 const SquigglyArrowIcon = () => (
-<svg
-  width="336"
-  height="398"
-  viewBox="0 0 420 460"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <path
-    d="M285 12
-       C390 40 430 100 400 210
-       C375 300 315 365 295 425
-       C285 455 285 470 300 475
-       C320 480 325 450 305 425
-       C245 385 150 365 55 370"
-    stroke="black"
-    strokeWidth="4"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  />
-
-  <path
-    d="M70 355 L52 372 L70 388"
-    stroke="black"
-    strokeWidth="4"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  />
+<svg width="336" height="398" viewBox="0 0 420 460" fill="none" xmlns="http://www.w3.org/2000/svg" > 
+  <path d="M285 12 C390 40 430 100 400 210 C375 300 315 365 295 425 C285 455 285 470 300 475 C320 480 325 450 305 425 C245 385 150 365 55 370" stroke="#E4D6C5" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /> 
+  <path d="M70 355 L52 372 L70 388" stroke="#E4D6C5" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /> 
 </svg>
+
 );

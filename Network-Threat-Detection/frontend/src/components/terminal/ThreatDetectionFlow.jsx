@@ -12,7 +12,7 @@ export default function ThreatDetectionFlow({ attack, status, categories }) {
   const activeCategory = categories.find((category) => category.active)?.name;
 
   return (
-    <section className="overflow-hidden bg-white border border-slate-200/80 p-5 sm:p-6 rounded-2xl shadow-[0_8px_18px_rgba(70,91,21,0.07)]">
+    <section className="overflow-hidden bg-[#FAF2CA] border border-slate-200/80 p-5 sm:p-6 rounded-2xl shadow-[0_8px_18px_rgba(70,91,21,0.07)]">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h3 className="text-sm font-extrabold uppercase tracking-[-0.02em] text-slate-900">Threat Detection Flow</h3>

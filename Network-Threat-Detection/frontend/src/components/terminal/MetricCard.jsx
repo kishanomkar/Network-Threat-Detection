@@ -13,7 +13,7 @@ export default function MetricCard({ title, value, subtext, trend, color = "cyan
   const Icon = theme.Icon;
 
   return (
-    <div className="min-h-[10.7rem] bg-white border border-slate-200/80 px-5 py-5 rounded-2xl flex flex-col justify-between shadow-[0_8px_18px_rgba(70,91,21,0.07)]">
+    <div className="min-h-[10.7rem] bg-[#FAF2CA] border border-slate-200/80 px-5 py-5 rounded-2xl flex flex-col justify-between shadow-[0_8px_18px_rgba(70,91,21,0.07)]">
       <div className="text-[0.72rem] font-bold uppercase tracking-wide text-slate-600">{title}</div>
       <div className="mt-3 flex items-center justify-between gap-2">
         <div className={`min-w-0 truncate text-[1.75rem] leading-none font-medium tracking-[-0.05em] ${theme.value}`}>{value ?? "--"}</div>

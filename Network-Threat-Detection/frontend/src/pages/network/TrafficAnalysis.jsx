@@ -76,7 +76,7 @@ const flowChartData = [
         {/* Charts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Protocol Distribution */}
-          <div className="bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm">
+          <div className="bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm">
             <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2">Protocol Distribution</h3>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
@@ -101,7 +101,7 @@ const flowChartData = [
           </div>
 
           {/* Top Destination Ports */}
-          <div className="md:col-span-2 bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm">
+          <div className="md:col-span-2 bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm">
             <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2">Top Destination Ports</h3>
             <div className="h-56">
               <ResponsiveContainer width="100%" height="100%">
@@ -117,7 +117,7 @@ const flowChartData = [
         </div>
 
         {/* Recent Flow Activity */}
-        <section className="bg-[#0d121f] border border-[#1a2333] p-5 sm:p-6 rounded-sm">
+        <section className="bg-[#FAF2CA] border border-[#1a2333] p-5 sm:p-6 rounded-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h3 className="text-sm font-extrabold uppercase tracking-[-0.02em] text-slate-800">Recent Network Flow Activity</h3>

@@ -29,7 +29,7 @@ export default function NetworkGraphPage() {
     <TerminalLayout title="Network Behaviour Graph Topology">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 font-mono">
         {/* Main 3D Graph Visualization */}
-        <div className="lg:col-span-3 bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm h-[600px] relative">
+        <div className="lg:col-span-3 bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm h-[600px] relative">
           <FraudGraph3D
             graphData={graphData}
             onNodeSelect={setSelectedNode}
@@ -39,7 +39,7 @@ export default function NetworkGraphPage() {
         </div>
 
         {/* Graph Details Sidebar */}
-        <div className="bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm space-y-4">
+        <div className="bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm space-y-4">
           <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider">Graph Metrics</h3>
           
           <div className="grid grid-cols-2 gap-2 text-xs">

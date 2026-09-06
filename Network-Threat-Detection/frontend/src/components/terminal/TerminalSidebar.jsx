@@ -44,19 +44,18 @@ export default function TerminalSidebar() {
   const isOnline = health?.status === "healthy";
 
   return (
-    <aside className="w-[17.5rem] xl:w-[21.875rem] shrink-0 bg-white/95 border-r border-slate-200 flex flex-col h-screen sticky top-0 text-slate-700 select-none shadow-[6px_0_28px_rgba(15,23,42,0.03)]">
-      <div className="px-6 pt-7 pb-6 border-b border-slate-200">
-        <div className="flex items-center gap-1 text-[1.65rem] leading-none font-extrabold tracking-[-0.06em] text-slate-950">
+    <aside className="w-[17.5rem] xl:w-[21.875rem] shrink-0 bg-[#091229] border-r border-slate-200 flex flex-col h-screen sticky top-0 text-slate-700 select-none shadow-[6px_0_28px_rgba(15,23,42,0.03)]">
+      <div className="px-6 pt-7 pb-[23px] border-b border-slate-200">
+        <div className="flex items-center gap-1 text-[1.65rem] leading-none font-extrabold tracking-[-0.06em] text-[#FAF2CA]">
           <span>Netra</span>
-          <span className="-ml-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#dfff2f] text-[1.38rem] tracking-[-0.08em]">AI</span>
+          <span className="-ml-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#FAF2CA] text-[1.38rem] tracking-[-0.08em] text-[#091229]">AI</span>
         </div>
-        <div className="mt-3 text-sm font-medium tracking-[-0.02em] text-slate-500">Empowering Cyber Defense</div>
       </div>
 
       <div className="flex-1 overflow-y-auto py-6 px-4 space-y-5 text-[0.93rem]">
         {navGroups.map((section) => (
           <div key={section.group}>
-            <div className="px-2.5 mb-2 text-[0.64rem] font-bold text-slate-500 tracking-wide uppercase">{section.group}</div>
+            <div className="px-2.5 mb-2 text-[0.64rem] font-bold text-[#faf2ca] tracking-wide uppercase">{section.group}</div>
             <div className="space-y-1">
               {section.items.map((item) => {
                 const Icon = item.icon;
@@ -68,8 +67,8 @@ export default function TerminalSidebar() {
                     className={({ isActive }) =>
                       `flex items-center justify-between px-3 py-2.5 rounded-2xl transition-all duration-200 ${
                         isActive
-                          ? "bg-[#dfff2f] text-slate-900 font-semibold shadow-[0_6px_18px_rgba(179,218,5,0.17)]"
-                          : "text-slate-600 hover:text-slate-950 hover:bg-slate-100"
+                          ? "bg-[#FAF2CA] text-slate-900 font-semibold shadow-[0_6px_18px_rgba(179,218,5,0.17)]"
+                          : "text-white hover:text-slate-950 hover:bg-[#FAF2CA]"
                       }`
                     }
                   >

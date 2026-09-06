@@ -29,7 +29,7 @@ export default function InvestigationPage() {
         {/* 3-Column Case View */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* LEFT: Case Info */}
-          <div className="bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm space-y-3">
+          <div className="bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm space-y-3">
             <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider flex items-center gap-2">
               <FileText className="w-4 h-4 text-cyan-400" /> Case Information
             </h3>
@@ -54,7 +54,7 @@ export default function InvestigationPage() {
           </div>
 
           {/* CENTER: Investigation Timeline */}
-          <div className="bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm space-y-3">
+          <div className="bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm space-y-3">
             <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider">Investigation Timeline</h3>
             <div className="space-y-2 text-xs">
               {timelineEvents.map((evt, idx) => (
@@ -70,7 +70,7 @@ export default function InvestigationPage() {
           </div>
 
           {/* RIGHT: Suspect Entities */}
-          <div className="bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm space-y-3">
+          <div className="bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm space-y-3">
             <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider">Suspect Entities</h3>
             <div className="space-y-2 text-xs">
               {suspects.map((s, idx) => (
@@ -84,7 +84,7 @@ export default function InvestigationPage() {
         </div>
 
         {/* BOTTOM: Recommended Actions */}
-        <div className="bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm space-y-3">
+        <div className="bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm space-y-3">
           <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider flex items-center gap-2">
             <CheckSquare className="w-4 h-4 text-emerald-400" /> Recommended Analyst Response Actions
           </h3>

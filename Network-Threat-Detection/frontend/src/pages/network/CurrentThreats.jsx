@@ -71,7 +71,7 @@ export default function CurrentThreats() {
       <div className="space-y-6 font-mono">
         {/* Main Status Strip */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-[#0d121f] border border-[#1a2333] p-5 rounded-sm flex items-center gap-4">
+          <div className="bg-[#FAF2CA] border border-[#1a2333] p-5 rounded-sm flex items-center gap-4">
             <div className={`w-16 h-16 rounded-full border-4 flex items-center justify-center font-bold text-xl ${currentTheme.ring} ${currentTheme.value}`}>
               {riskScore}
             </div>
@@ -90,7 +90,7 @@ export default function CurrentThreats() {
         <ThreatDetectionFlow attack={threatAttack} status={threatStatus} categories={categories} />
 
         {/* Threat Breakdown Grid */}
-        <div className="bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm">
+        <div className="bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm">
           <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-4">
             Threat Category Breakdown
           </h3>
@@ -107,7 +107,7 @@ export default function CurrentThreats() {
 
         {/* Network Stats & Evidence Panel */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm space-y-3">
+          <div className="bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm space-y-3">
             <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider">
               Network Traffic Indicators
             </h3>
@@ -131,7 +131,7 @@ export default function CurrentThreats() {
             </div>
           </div>
 
-          <div className="bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm space-y-3">
+          <div className="bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm space-y-3">
             <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider">
               Active Threat Evidence
             </h3>

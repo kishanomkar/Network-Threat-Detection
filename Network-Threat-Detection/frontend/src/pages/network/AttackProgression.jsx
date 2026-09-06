@@ -18,7 +18,7 @@ export default function AttackProgression() {
     <TerminalLayout title="Attack Progression Timeline">
       <div className="space-y-6 font-mono">
         {/* Stage Progression Flow */}
-        <div className="bg-[#0d121f] border border-[#1a2333] p-6 rounded-sm">
+        <div className="bg-[#FAF2CA] border border-[#1a2333] p-6 rounded-sm">
           <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-6">
             Cyber Kill-Chain Progression Map
           </h3>
@@ -46,7 +46,7 @@ export default function AttackProgression() {
 
         {/* Detailed Progression Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-[#0d121f] border border-[#1a2333] p-5 rounded-sm space-y-3">
+          <div className="bg-[#FAF2CA] border border-[#1a2333] p-5 rounded-sm space-y-3">
             <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider">Current Stage Details</h3>
             <div className="bg-[#080c14] p-4 border border-amber-900/50 rounded-sm">
               <div className="text-sm font-bold text-amber-400">Lateral Movement</div>
@@ -60,7 +60,7 @@ export default function AttackProgression() {
             </div>
           </div>
 
-          <div className="bg-[#0d121f] border border-[#1a2333] p-5 rounded-sm space-y-3">
+          <div className="bg-[#FAF2CA] border border-[#1a2333] p-5 rounded-sm space-y-3">
             <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider">Next Predicted Stage</h3>
             <div className="bg-[#080c14] p-4 border border-red-900/50 rounded-sm">
               <div className="text-sm font-bold text-red-400">Command & Control</div>

@@ -59,7 +59,7 @@ export default function AttackForecast() {
       <div className="space-y-6 font-mono">
         {/* Top Summary Banner */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-[#0d121f] border border-red-900/50 p-5 rounded-sm flex items-center justify-between">
+          <div className="bg-[#FAF2CA] border border-red-900/50 p-5 rounded-sm flex items-center justify-between">
             <div>
               <div className="text-[11px] text-slate-400 uppercase">FUTURE ATTACK RISK</div>
               <div className="text-3xl font-bold text-red-400 mt-1">{futureRisk} <span className="text-sm font-normal text-slate-500">/ 100</span></div>
@@ -74,7 +74,7 @@ export default function AttackForecast() {
         </div>
 
         {/* Main Forecast Chart */}
-        <div className="bg-[#0d121f] border border-[#1a2333] p-5 rounded-sm space-y-3">
+        <div className="bg-[#FAF2CA] border border-[#1a2333] p-5 rounded-sm space-y-3">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-xs font-bold uppercase text-slate-300 tracking-wider">
@@ -87,7 +87,7 @@ export default function AttackForecast() {
         </div>
 
         {/* Step-by-Step Predictions */}
-        <div className="bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm">
+        <div className="bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm">
           <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-3">
             K-Step Forward Simulation Timeline
           </h3>
@@ -106,7 +106,7 @@ export default function AttackForecast() {
         </div>
 
         {/* Driver / Explanation */}
-        <div className="bg-[#0d121f] border border-amber-900/40 p-4 rounded-sm flex items-start gap-3">
+        <div className="bg-[#FAF2CA] border border-amber-900/40 p-4 rounded-sm flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
           <div>
             <h4 className="text-xs font-bold uppercase text-amber-400">Why is risk increasing?</h4>

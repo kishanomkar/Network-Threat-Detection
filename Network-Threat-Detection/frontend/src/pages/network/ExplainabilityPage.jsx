@@ -30,7 +30,7 @@ export default function ExplainabilityPage() {
         </div>
 
         {/* Feature Attribution Bars */}
-        <div className="bg-[#0d121f] border border-[#1a2333] p-5 rounded-sm space-y-4">
+        <div className="bg-[#FAF2CA] border border-[#1a2333] p-5 rounded-sm space-y-4">
           <h3 className="text-xs font-bold uppercase text-[#a78bfa] tracking-wider flex items-center gap-2">
             <BrainCircuit className="w-4 h-4 text-purple-400" /> Feature Attribution Breakdown (Shapley Values)
           </h3>
@@ -51,7 +51,7 @@ export default function ExplainabilityPage() {
         </div>
 
         {/* Detailed Feature Interpretation Table */}
-        <div className="bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm">
+        <div className="bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm">
           <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-3">Feature Contribution Details</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">

@@ -49,7 +49,7 @@ export default function Overview() {
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-          <section className="xl:col-span-2 bg-white border border-slate-200/80 p-6 rounded-2xl shadow-[0_8px_18px_rgba(70,91,21,0.07)]">
+          <section className="xl:col-span-2 bg-[#FAF2CA] border border-slate-200/80 p-6 rounded-2xl shadow-[0_8px_18px_rgba(70,91,21,0.07)]">
             <div className="flex items-center justify-between gap-4 mb-4">
               <div>
                 <h3 className="text-sm font-extrabold uppercase tracking-[-0.02em] text-slate-900">Network Risk Over Time</h3>
@@ -63,7 +63,7 @@ export default function Overview() {
             <RiskChart data={chartData} />
           </section>
 
-          <section className="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-[0_8px_18px_rgba(70,91,21,0.07)] space-y-5">
+          <section className="bg-[#FAF2CA] border border-slate-200/80 p-6 rounded-2xl shadow-[0_8px_18px_rgba(70,91,21,0.07)] space-y-5">
             <h3 className="text-sm font-extrabold uppercase tracking-[-0.02em] text-slate-900">Top Risk Drivers</h3>
             <div className="space-y-4 text-xs">
               {drivers.map((driver, index) => (
@@ -77,17 +77,17 @@ export default function Overview() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <section className="min-h-[12.2rem] bg-white border border-slate-200/80 p-6 rounded-2xl shadow-[0_8px_18px_rgba(70,91,21,0.07)]">
+          <section className="min-h-[12.2rem] bg-[#FAF2CA] border border-slate-200/80 p-6 rounded-2xl shadow-[0_8px_18px_rgba(70,91,21,0.07)]">
             <div className="text-xs font-bold uppercase tracking-wide text-slate-600 mb-5 flex items-center gap-3"><ShieldAlert className="w-5 h-5 text-[#ff3f3f]" /> Current Threat</div>
             <div className="text-xl font-bold tracking-[-0.03em] text-[#ff3f3f]">{attackStage}</div>
             <div className="text-sm font-medium text-slate-500 mt-3">{threatDesc}</div>
           </section>
-          <section className="min-h-[12.2rem] bg-white border border-slate-200/80 p-6 rounded-2xl shadow-[0_8px_18px_rgba(70,91,21,0.07)]">
+          <section className="min-h-[12.2rem] bg-[#FAF2CA] border border-slate-200/80 p-6 rounded-2xl shadow-[0_8px_18px_rgba(70,91,21,0.07)]">
             <div className="text-xs font-bold uppercase tracking-wide text-slate-600 mb-5 flex items-center gap-3"><Activity className="w-5 h-5 text-[#37ba86]" /> Future Forecast</div>
             <div className="text-xl font-bold tracking-[-0.03em] text-[#f5a019]">{forecastDesc}</div>
             <div className="text-sm font-medium text-slate-500 mt-3">Predicted stage: {predictedStage}</div>
           </section>
-          <section className="min-h-[12.2rem] bg-white border border-slate-200/80 p-6 rounded-2xl shadow-[0_8px_18px_rgba(70,91,21,0.07)]">
+          <section className="min-h-[12.2rem] bg-[#FAF2CA] border border-slate-200/80 p-6 rounded-2xl shadow-[0_8px_18px_rgba(70,91,21,0.07)]">
             <div className="text-xs font-bold uppercase tracking-wide text-slate-600 mb-5 flex items-center gap-3"><Cpu className="w-5 h-5 text-[#37ba4b]" /> Network State</div>
             <div className="text-xl font-bold tracking-[-0.03em] text-[#37ba4b]">{riskTimeline ? "Active & Monitoring" : "Waiting for Analysis"}</div>
             <div className="text-sm font-medium text-slate-500 mt-3">{stateDesc}</div>

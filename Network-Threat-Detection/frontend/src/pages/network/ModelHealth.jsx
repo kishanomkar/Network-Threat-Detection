@@ -20,7 +20,7 @@ export default function ModelHealth() {
     <TerminalLayout title="Model Health & System Diagnostics">
       <div className="space-y-6 font-mono">
         {/* System Health Overview */}
-        <div className="bg-[#0d121f] border border-[#1a2333] p-5 rounded-sm flex items-center justify-between">
+        <div className="bg-[#FAF2CA] border border-[#1a2333] p-5 rounded-sm flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className={`w-10 h-10 rounded-full flex items-center justify-center ${isOnline ? "bg-emerald-950 text-emerald-400 border border-emerald-800" : "bg-red-950 text-red-400 border border-red-800"}`}>
               <Activity className="w-5 h-5" />
@@ -36,7 +36,7 @@ export default function ModelHealth() {
         </div>
 
         {/* Modules Table */}
-        <div className="bg-[#0d121f] border border-[#1a2333] p-4 rounded-sm space-y-4">
+        <div className="bg-[#FAF2CA] border border-[#1a2333] p-4 rounded-sm space-y-4">
           <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider">Subsystem Status Diagnostics</h3>
           <div className="space-y-3">
             {modules.map((m) => (
